@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h2 id="pLog">Login</h2>
+        <input type="text" placeholder="username" id="usernameInput" required />
+        <input type="password" placeholder="password" id="passwordInput" required />
+        <button onclick="login()" id="loginbtn">Login</button>
+        <button onclick="logout()" id="logout">Logout</button>
+
+        <h2 id="pReg">Register</h2>
+        <input type="text" placeholder="New username" id="newUsername" />
+        <input type="password" placeholder="New password" id="newPassword" />
+
+        <br />
+        <br />
+        <h1 id="admin"></h1>
+        <h1 id="user"></h1>
+        <h1 id="mistake"></h1>
+        <button onclick="register()" id="regisBtn">Register</button>
+    </div>
+
+    <script type="application/javascript">
+        let username = document.getElementById('usernameInput'),
+            password = document.getElementById('passwordInput'),
+            regUsername = document.getElementById('newUsername'),
+            regPassword = document.getElementById('newPassword'),
+            admin = document.getElementById('admin'),
+            user = document.getElementById('user'),
+            loginbtn = document.getElementById('loginbtn'),
+            logoutbtn = document.getElementById('logout'),
+            warning = document.getElementById('mistake'),
+            plogin = document.getElementById('pLog'),
+            pRegis = document.getElementById('pReg'),
+            registerButton = document.getElementById('regisBtn');
+
+        logoutbtn.style.display = 'none';
+        regUsername.style.display = 'none';
+        regPassword.style.display = 'none';
+        pRegis.style.display = 'none';
+        registerButton.style.display = 'none';
+
+        function inisialisasiUser() {
+            if (!localStorage.getItem('users')) {
+                const defaultUsers = [
+                    {
+                        username: "admin",
+                        password: "admin123",
+                        role: "admin"
+                    },
+                    {
+                        username: "admin1",
+                        password: "admin1",
+                        role: "admin"
+                    }
+                ];
+                localStorage.setItem('users', JSON.stringify(defaultUsers));
+            }
+        }
+
+        inisialisasiUser();
+
+        function login() {
+            let usernameValue = username.value;
+            let passwordValue = password.value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const found = users.find(user => user.username === usernameValue && user.password === passwordValue);
+
+            if (found) {
+                if (found.role === 'admin') {
+                    admin.textContent = 'Hallo Admin Selamat datang, senang anda kembali';
+                    user.textContent = '';
+                    alert('berhasil login sebagai admin');
+                    registerButton.style.display = 'none'
+                    logoutbtn.style.display = 'block';
+                } else {
+                    user.textContent = `Hii User ${found.username} senang bertemu anda`;
+                    admin.textContent = '';
+                    registerButton.style.display = 'none'
+                    logoutbtn.style.display = 'block';
+                }
+            } else {
+                alert("Login gagal! username atau password salah!!");
+                warning.textContent = 'Jika belum mempunyai akun silahkan register';
+                registerButton.style.display = 'block';
+            }
+
+            username.style.display = 'none';
+            password.style.display = 'none';
+            loginbtn.style.display = 'none';
+            plogin.style.display = 'none';
+            regUsername.style.display = 'none';
+            regPassword.style.display = 'none';
+            logoutbtn.style.display = 'block';
+            pRegis.style.display = 'none';
+        }
+
+        function register() {
+            let userNew = regUsername.value.trim();
+            let passNew = regPassword.value.trim();
+            regUsername.style.display = 'block';
+            regPassword.style.display = 'block';
+            logoutbtn.style.display = 'none';
+            pRegis.style.display = 'block';
+
+
+
+            if (!userNew || !passNew) {
+                // alert('Username atau password tidak boleh kosong');
+                warning.textContent = 'Silahkan mengisi pendaftaran';
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            if (users.find(u => u.username === userNew)) {
+                alert('Username atau password sudah dipakai');
+                regUsername.value = '';
+                regPassword.value = '';
+                return;
+            }
+
+            users.push({ username: userNew, password: passNew, role: 'user' });
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('registrasi berhasil');
+            regUsername.value = '';
+            regPassword.value = '';
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+    </script>
+
+</body>
+
+</html>

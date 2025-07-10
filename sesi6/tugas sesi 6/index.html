@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas sesi 6</title>
+    <style>
+        *,
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background-color: white;
+            color: black;
+        }
+        .dark {
+            background-color: black;
+            color : white;
+        }
+
+        .mode1 {
+            background-color: #A9A9A9;
+            color: #8B0000;
+        }
+
+        .mode2 {
+            background-color: #191970;
+            color: #F5FFFA;
+        }
+
+        .mode3 {
+            background-color: #006400;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            background-color: black;
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            font-weight: 700;
+        }
+
+        nav a:hover {
+            background-color: rgb(136, 136, 130);
+            cursor: pointer;
+            transition: backgroud-color 0.3 ease-in-out;
+            border-radius: 7px;
+        }
+
+        p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            margin-top: 20%;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <a onclick="homeclick()" id="home">home</a>
+            <a onclick="mode()" id="mode">mode</a>
+            <a onclick="mode1()" id="modeSatu">mode 1</a>
+            <a onclick="mode2()" id="modeDua">mode 2</a>
+            <a onclick="mode3()" id="modeTiga">mode 3</a>
+        </nav>
+        <h1 id="content">welcome to my fucking shit story when i teenage</h1>
+        <p id="info"></p>
+    </div>
+
+
+    <script>
+        let home = document.getElementById('home'),
+            modeori = document.getElementById('mode'),
+            modeSatu = document.getElementById('modeSatu'),
+            modeDua = document.getElementById('modeDua'),
+            modeTiga = document.getElementById('modeTiga'),
+            info = document.getElementById('info');
+
+        
+        let countClick = 0;
+        let content  = document.getElementById('content');
+        body = document.body;
+
+
+        function homeclick() {
+            countClick++;
+            info.textContent = 'tekan lagi untuk reload';
+            console.log(countClick)
+            if(countClick >= 2){
+                location.reload();
+            }
+        }
+
+        function mode() {
+            body.classList.toggle('dark');
+            home.textContent = 'back'
+            modeSatu.style.display = 'none';
+            modeDua.style.display = 'none';
+            modeTiga.style.display = 'none';
+            content.textContent = 'anda masuk ke dalam mode original';
+        }
+
+        function mode1() {
+            body.classList.toggle('mode1');
+            home.textContent = 'back';
+            modeori.style.display = 'none';
+            modeDua.style.display = 'none';
+            modeTiga.style.display = 'none';
+            content.textContent = 'anda masuk ke dalam mode pertama';
+        }
+
+        function mode2() {
+            body.classList.toggle('mode2');
+            home.textContent = 'back';
+            modeori.style.display = 'none';
+            modeSatu.style.display = 'none';
+            modeTiga.style.display = 'none';
+            content.textContent = 'anda masuk kedalam mode kedua';
+        }
+
+        function mode3() {
+            body.classList.toggle('mode3');
+            home.textContent = 'back';
+            modeori.style.display = 'none';
+            modeSatu.style.display = 'none';
+            modeDua.style.display = 'none';
+            content.textContent = 'anda masuk kedalam mode ketiga';
+        }
+
+    </script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sesi 5</title>
+</head>
+<style>
+    #root1 {
+        background-color: tomato;
+        color: white;
+        text-align: center;
+        height: 100vh;
+        font-size: 2em;
+    }
+</style>
+
+<body>
+    <!-- content -->
+    <div id="root1">
+        <input type="text" placeholder="username" id="usernameInput" />
+        <input type="password" placeholder="password" id="passwordInput" />
+        <button onclick="onlogin()" id="login">login</button>
+        <button id="logout" onclick="onLogout()" class="log">logout</button>
+
+        <br />
+        <h1 id="admin">Login sebagai Admin</h1>
+        <h1 id="user">Login sebagai User</h1>
+
+    </div>
+
+
+    <script type="application/javascript">
+        // const myName = 'Muhammad Akmal';
+        // let age = 19;
+        // let addreas = 'Jln Rata Menganto Rt07 Rw02';
+        let root1 = document.getElementById('root1');
+        // let root2 = document.getElementById('root2');
+        // let root3 = document.getElementById('root3');
+
+        // root1.textContent = 'Nama: ' + myName;
+        // // root2.textContent = 'Umur: ' + age;
+        // // root3.textContent = 'Alamat: ' + addreas;
+
+        // root1.style.backgroundColor = 'blue';
+        // root1.style.textAlign = 'center';
+        // root1.style.fontSize = '2em';
+        // root1.style.color = 'white'
+
+        let usernameInput = document.getElementById('usernameInput');
+        let passwordInput = document.getElementById('passwordInput');
+        let admin = document.getElementById('admin');
+        let user = document.getElementById('user');
+        let login = document.getElementById('login');
+        let logout = document.getElementById('logout');
+
+        admin.style.display = 'none';
+        user.style.display = 'none';
+        logout.style.display = 'none';
+        logout.style.display = 'center';
+
+
+        function onlogin() {
+            localStorage.setItem('username', usernameInput.value)
+            logout.style.display = 'block';
+
+
+            if (usernameInput.value == "admin" && passwordInput.value == "adminadmin") {
+                localStorage.setItem('role', 'admin');
+                usernameInput.style.display = 'none';
+                passwordInput.style.display = 'none';
+                login.style.display = 'none';
+                admin.style.display = 'block';
+                user.style.display = 'none';
+            } else {
+                localStorage.setItem('role', 'user');
+                usernameInput.style.display = 'none';
+                passwordInput.style.display = 'none';
+                login.style.display = 'none';
+                admin.style.display = 'none';
+                user.style.display = 'block';
+            }
+        }
+
+        if (localStorage.getItem('username')) {
+            usernameInput.style.display = 'none';
+            passwordInput.style.display = 'none';
+            login.style.display = 'none';
+            logout.style.display = 'block';
+            if (localStorage.getItem('admin')) {
+                admin.style.display = 'block';
+                user.style.display = 'none';
+            } else {
+                admin.style.display = 'none';
+                user.style.display = 'block';
+            }
+        }
+
+        function onLogout() {
+            localStorage.clear();
+            location.reload();
+        }
+
+
+
+    </script>
+</body>
+
+</html>

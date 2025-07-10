@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Register</title>
+</head>
+<body>
+  <div id="root1">
+    <h2>Login</h2>
+    <input type="text" placeholder="username" id="usernameInput" required />
+    <input type="password" placeholder="password" id="passwordInput" required />
+    <button onclick="clicklogin()">Login</button>
+    <button onclick="clicklogout()">Logout</button>
+
+    <h2>Register</h2>
+    <input type="text" placeholder="new username" id="regUsername" />
+    <input type="password" placeholder="new password" id="regPassword" />
+    <button onclick="clickRegister()">Register</button>
+
+    <br/><br/>
+    <h1 id="admin"></h1>
+    <h1 id="user"></h1>
+  </div>
+  <script>
+    // Ambil elemen
+    let usernameInput = document.getElementById('usernameInput');
+    let passwordInput = document.getElementById('passwordInput');
+    let regUsername = document.getElementById('regUsername');
+    let regPassword = document.getElementById('regPassword');
+    let admin = document.getElementById('admin');
+    let userAll = document.getElementById('user');
+
+    // Load default users jika belum ada di localStorage
+    function initializeUsers() {
+      if (!localStorage.getItem('users')) {
+        const defaultUsers = [
+          { username: "admin", password: "123", role: "admin" }
+        ];
+        localStorage.setItem('users', JSON.stringify(defaultUsers));
+      }
+    }
+
+    initializeUsers();
+
+    function clicklogin() {
+      let username = usernameInput.value;
+      let password = passwordInput.value;
+
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+
+      const found = users.find(user => user.username === username && user.password === password);
+
+      if (found) {
+        if (found.role === "admin") {
+          admin.textContent = "Halo admin";
+          userAll.textContent = "";
+        } else {
+          userAll.textContent = `Haii user ${found.username}`;
+          admin.textContent = "";
+        }
+      } else {
+        alert("Login gagal! Username atau password salah.");
+      }
+    }
+
+    function clicklogout() {
+      usernameInput.value = '';
+      passwordInput.value = '';
+      admin.textContent = '';
+      userAll.textContent = '';
+      alert("Berhasil logout");
+    }
+
+    function clickRegister() {
+      let newUser = regUsername.value.trim();
+      let newPass = regPassword.value;
+
+      if (!newUser || !newPass) {
+        alert("Username dan password tidak boleh kosong!");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+
+      // Cek duplikat
+      if (users.find(u => u.username === newUser)) {
+        alert("Username sudah dipakai!");
+        return;
+      }
+
+      // Batasi sampai 10 user saja (di luar admin)
+      const userCount = users.filter(u => u.role !== 'admin').length;
+      if (userCount >= 10) {
+        alert("Jumlah user sudah mencapai 10!");
+        return;
+      }
+
+      users.push({ username: newUser, password: newPass, role: "user" });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert("Registrasi berhasil!");
+      regUsername.value = '';
+      regPassword.value = '';
+    }
+  </script>
+</body>
+</html>
